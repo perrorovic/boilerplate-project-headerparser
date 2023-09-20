@@ -19,9 +19,16 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-// your first API endpoint...
-app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
+app.get('/api/whoami', function (req, res) {
+  //acquire client ip address
+  const ip = req.socket.remoteAddress;
+  //acquire client language
+  //const lang = req.header['accept-language'];
+  //well it wanted the client preferred language...
+  const lang = req.acceptsLanguages('en-US', 'en', 'id');
+  //acquire client web-application
+  const app = req.get('User-Agent');
+  res.json({ipaddress: ip,language: lang, software: app});
 });
 
 // listen for requests :)
